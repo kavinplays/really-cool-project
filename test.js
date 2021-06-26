@@ -1,1 +1,1 @@
-console.log('Hello World!')
+throw new Error('database failed to connect');
