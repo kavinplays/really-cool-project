@@ -5,7 +5,7 @@ on:
 
 jobs:
 
-  job1:
+  ubuntu:
     runs-on: ubuntu-latest
 
     strategy:
@@ -22,7 +22,7 @@ jobs:
       - run: npm run build --if-present
       - run: npm test
 
-  job2:
+  windows:
     runs-on: windows-latest
 
     strategy:
@@ -39,7 +39,7 @@ jobs:
       - run: npm run build --if-present
       - run: npm test
 
-  job3:
+  macos:
     runs-on: macos-latest
 
     strategy:
@@ -55,3 +55,17 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
+
+  deta:
+    if: always()
+    needs: [ubuntu, windows, macos]
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - uses: BogDAAAMN/deta-deploy-action@v1.0.0
+        with:
+          deta-access-token: ${{ secrets.DETA_TOKEN }}
+          deta-name: 'deta'
+          deta-project: 'default'
